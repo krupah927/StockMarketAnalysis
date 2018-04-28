@@ -1,0 +1,20 @@
+format long
+fileID = fopen('AMZN30.txt','r');
+formatSpec = '%f';
+V = textscan(fileID, formatSpec, 'Delimiter', ',');
+data = vertcat(V{:});
+Z = data;
+Z_1 = sort(Z);
+%Z_1 = sort(Z);
+%Z_2 = Z_1(Z_1>34.56211);
+[z1, z2] = size(Z)
+n = 10;
+c = ceil(z1/n);
+%n = 10
+b = reshape(Z,n,c);
+block_max = max(b);
+%Z_1 = Z(Z>35.8);
+[paramEsts, paramCIs] = gevfit(block_max);
+kMLE = paramEsts(1)
+sigmaMLE = paramEsts(2)
+muMLE = paramEsts(3)

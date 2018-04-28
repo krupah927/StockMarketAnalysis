@@ -1,0 +1,28 @@
+
+dec1to8<-as.matrix(amudec1to8)                                 #passing the excel data file named amudec1to8
+
+row.names(dec1to8) <- dec1to8names$name                        #passing the matrix of names and then appendinig them to the dec1to8 matrix
+
+print(row.names)                  # printing the matrix dec1to8 with names from dec1to8namesmatrix(it contains the names for the companies as amudec1to8matrix cannot accept string values)
+dec1to8plot<-nmf(dec1to8, 9, "lee", nrun=5) #using the nmf function in R to form clusters. The first parameter is the matrix. 2nd is rank, 3rd is the method, 4th is the number of iterations.
+
+
+plot(dec1to8plot)                  #plots the model of NMF
+
+layout(cbind(1,2))
+basismap(dec1to8plot, Rowv = TRUE, main = "NMF Clustering for Dec 1 to Dec 8")   # plots the heat map
+
+w <- basis(dec1to8plot)                    #gives the W matrix
+dim(w)
+
+h <- coef(dec1to8plot)                     #gives the H matrix
+dim(h)
+
+s <- featureScore(dec1to8plot)            # gives information about the features 
+summary(s)
+
+fit(dec1to8plot)                   # it is used to retrieve the fitted  model.
+summary(fit)                       # summary of fit model
+
+
+##########for all the data, we only change the data to be imported. 

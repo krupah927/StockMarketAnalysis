@@ -1,0 +1,109 @@
+/*
+ * Code to crawl data from yahoo finance
+ * 
+ * 
+ 
+ */
+//imoprt all necessary libraries
+import java.net.*;
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import java.io.*;
+
+
+public class CrawlYahoo {
+	
+	public static int[] DELAY = {9,10,11,8};
+	public static void main(String[] args) {
+	
+		try {
+				
+			int i=0;
+			String tableVal=null;
+			String tableVal2=null;
+//			String previousclose=null;
+//			String OpenVal=null;
+//			String bid=null;
+//			String ask=null;
+//			String dayRange=null;
+//			String volum=null;
+//			String avgVol=null;
+//			
+				//change file name for each url
+				File file = new File("nyseAMZN.txt");
+				file.createNewFile();
+				PrintWriter writer = new PrintWriter(file); 
+				//give ur url here https://finance.yahoo.com/quote/GOOGL?p=GOOGL" only ticker symbol changes
+				String linkToScrape = "https://finance.yahoo.com/quote/AMZN?p=AMZN";
+				   String nl=System.getProperty("line.separator");
+
+			      // display time and date using toString()
+				   Date date = new Date();   
+				   @SuppressWarnings("deprecation")
+				int dd=date.getHours();
+				//get machine time along with nyse time to include seconds in data.
+				while(date.getHours()<=12) {
+					date = new Date(); 
+					try {
+						//connect to the url
+							Document document = Jsoup.connect(linkToScrape).get();
+							String stock=null;
+							
+							String timeNow=date.toString();
+							//extract required data from the response
+						Elements tryu=document.getElementsByAttributeValue("class","D(ib) Mend(20px)");
+						
+						Elements tabledata=document.getElementsByAttributeValue("class", "W(100%)");
+						Elements table2data=document.getElementsByAttributeValue("class","W(100%) M(0) Bdcl(c)");
+						
+						//parse the response according to the need
+						Element getName=tryu.select("span").first();
+						
+						stock=getName.text();
+						
+						//store time
+						Elements getTime=document.getElementsByAttributeValue("id","quote-market-notice");
+						Element getT=getTime.select("span").first();
+						
+						 String time=getT.text();
+						Element getChange=tryu.select("span").get(1); 
+						//store change value
+						String changeVal=getChange.text();
+						
+						Elements vol = tabledata.select("span");
+						tableVal=vol.text();
+						
+						Elements tabdata=table2data.select("span");
+						tableVal2=tabdata.text();
+						
+						//parse and write all required data to file 
+						System.out.println(" "+stock+"\t"+date.toString()+"\t"+time+"\t"+changeVal+"\t"+tableVal+"\t"+tableVal2);
+						writer.write(stock+"\t"+timeNow+"\t"+time+"\t"+changeVal+"\t"+tableVal+"\t"+tableVal2);
+						writer.write((nl));
+						 
+					
+					}catch(Exception e) {
+						System.out.println("could be a socket exception");
+					}
+						//give a delay between the next call
+						Thread.sleep(DELAY[i%4]*1000); 
+						i++;
+				}
+				//close the file after writing data into the file
+				writer.close();
+				
+				} catch (IOException e) {  //to handle exceptions try catches are used
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+	}
+	
+}
+
