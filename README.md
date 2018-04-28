@@ -27,7 +27,7 @@ import Dec6 or Dec1to8 data and run the script.
 NMF Clustering:
 
 Toy data- runnable code. 
- Dataset “datamatrix”, which is the dataset for a week’s data(dec1st to dec 8th) 
- Dataset “namematrix” which consists of the names for the companies.  
+ Dataset â€œdatamatrixâ€, which is the dataset for a weekâ€™s data(dec1st to dec 8th) 
+ Dataset â€œnamematrixâ€ which consists of the names for the companies.  
  Open the program in Rstudio. Click on run. 
 
