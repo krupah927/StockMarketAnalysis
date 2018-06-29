@@ -31,3 +31,4 @@ Toy data- runnable code.
  Dataset “namematrix” which consists of the names for the companies.  
  Open the program in Rstudio. Click on run. 
 
+Contributors: Krupa Hegde, Ankit Jain
